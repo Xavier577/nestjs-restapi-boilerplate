@@ -24,7 +24,13 @@
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+A [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+
+## To use this template
+
+```
+npx degit https://github.com/Xavier577/nestjs-prisma-starter.git <your-project-name>
+```
 
 ## Installation
 
