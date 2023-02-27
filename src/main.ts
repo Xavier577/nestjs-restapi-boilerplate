@@ -1,19 +1,17 @@
+import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
+import { SwaggerInit } from './swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  const config = new DocumentBuilder()
-    .setTitle('Foodie api')
-    .setDescription('The cats API description')
-    .setVersion('1.0')
-    .addTag('cats')
-    .build();
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('/api/docs', app, document);
+  SwaggerInit(app);
 
-  await app.listen(3000);
+  await app.listen(9000);
+
+  const appUrl = await app.getUrl();
+
+  Logger.log(`app is running on ${appUrl}`, 'NestApplication');
 }
 bootstrap();
