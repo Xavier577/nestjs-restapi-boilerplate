@@ -11,7 +11,13 @@
     "outDir": "./dist",
     "baseUrl": "./",
     "paths": {
-      "@database/*": ["src/database/*"]
+      "@api/*": ["src/api/*"],
+      "@admin-ui/*": ["src/adminui/*"],
+      "@common/*": ["src/common/*"],
+      "@config/*": ["src/config/*"],
+      "@database/*": ["src/database/*"],
+      "@repositories/*": ["./src/repositories/*"],
+      "@modules/*": ["src/modules/*"]
     },
     "incremental": true,
     "skipLibCheck": true,
