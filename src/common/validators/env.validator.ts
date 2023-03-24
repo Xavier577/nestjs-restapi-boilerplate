@@ -7,10 +7,6 @@ export default Joi.object({
     .default('development'),
 
   DATABASE_URL: Joi.string().required(),
-  APP_SESSION_SECRET: Joi.string().required(),
-
-  REDIS_PORT: Joi.number().default(6379),
-  REDIS_HOST: Joi.string().default('127.0.0.1'),
 
   ADMINJS_ROUTE: Joi.string().when('NODE_ENV', {
     is: Joi.string().valid('development'),
