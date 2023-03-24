@@ -29,7 +29,7 @@ A [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository
 ## To use this template
 
 ```
-npx degit https://github.com/Xavier577/nestjs-restapi-boilerplater.git <your-project-name>
+npx degit https://github.com/Xavier577/nestjs-restapi-boilerplate.git <your-project-name>
 ```
 
 ## Installation
