@@ -1,10 +1,15 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-// import { DatabaseModule } from '@database/database.module';
+import { DatabaseModule } from '@database/database.module';
+import envValidator from '@common/validators/env.validator';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  // imports: [DatabaseModule],
+  imports: [
+    ConfigModule.forRoot({ validationSchema: envValidator }),
+    DatabaseModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
