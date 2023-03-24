@@ -51,6 +51,51 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
+## Folder structure
+
+```
+.
+├── README.md
+├── nest-cli.json
+├── package.json
+├── prisma
+│   └── schema.prisma
+├── src
+│   ├── adminui
+│   │   ├── options.ts
+│   │   └── resource.builder.ts
+│   ├── api
+│   ├── app.module.ts
+│   ├── common
+│   │   ├── decorators
+│   │   │   └── match.decorator.ts
+│   │   ├── enums
+│   │   ├── errors
+│   │   ├── interceptors
+│   │   │   ├── error.interceptor.ts
+│   │   │   ├── response-logger.interceptor.ts
+│   │   │   └── serializer.interceptor.ts
+│   │   ├── interfaces
+│   │   ├── middlewares
+│   │   │   └── request-logger.middleware.ts
+│   │   ├── utils
+│   │   │   └── request-logger.parser.ts
+│   │   └── validators
+│   │       └── env.validator.ts
+│   ├── database
+│   │   ├── database.module.ts
+│   │   └── prisma.service.ts
+│   ├── main.ts
+│   ├── swagger.ts
+│   └── templates
+├── test
+│   ├── app.e2e-spec.ts
+│   └── jest-e2e.json
+├── tsconfig.build.json
+├── tsconfig.json
+└── yarn.lock
+```
+
 ## Test
 
 ```bash
