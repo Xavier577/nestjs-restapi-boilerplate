@@ -10,7 +10,7 @@ export default Joi.object({
 
   ADMINJS_ROUTE: Joi.string().when('NODE_ENV', {
     is: Joi.string().valid('development'),
-    then: Joi.optional(),
+    then: Joi.string().default('/admin'),
     otherwise: Joi.required(),
   }),
   ADMINJS_COOKIE_NAME: Joi.string().when('NODE_ENV', {

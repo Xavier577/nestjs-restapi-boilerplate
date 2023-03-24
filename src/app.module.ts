@@ -1,16 +1,38 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { DatabaseModule } from '@database/database.module';
 import envValidator from '@common/validators/env.validator';
 import { ConfigModule } from '@nestjs/config';
+import AdminJS from 'adminjs';
+import { Database, Resource } from '@adminjs/prisma';
+import { AdminModule as AdminJsModule } from '@adminjs/nestjs';
+import { adminUIOptions } from '@admin-ui/options';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { ResponseLoggerInterceptor } from '@common/interceptors/response-logger.interceptor';
+import { ErrorInterceptor } from '@common/interceptors/error.interceptor';
+import { NestModule } from '@nestjs/common';
+import { RequestLogger } from '@common/middlewares/request-logger.middleware';
+
+AdminJS.registerAdapter({ Database, Resource });
 
 @Module({
   imports: [
+    AdminJsModule.createAdminAsync(adminUIOptions),
     ConfigModule.forRoot({ validationSchema: envValidator }),
     DatabaseModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    { provide: APP_INTERCEPTOR, useClass: ResponseLoggerInterceptor },
+    { provide: APP_INTERCEPTOR, useClass: ErrorInterceptor },
+  ],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  public configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(RequestLogger)
+      .forRoutes({ path: '*', method: RequestMethod.ALL });
+  }
+}
