@@ -1,6 +1,4 @@
 import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { DatabaseModule } from '@database/database.module';
 import envValidator from '@common/validators/env.validator';
 import { ConfigModule } from '@nestjs/config';
@@ -22,9 +20,7 @@ AdminJS.registerAdapter({ Database, Resource });
     ConfigModule.forRoot({ validationSchema: envValidator }),
     DatabaseModule,
   ],
-  controllers: [AppController],
   providers: [
-    AppService,
     { provide: APP_INTERCEPTOR, useClass: ResponseLoggerInterceptor },
     { provide: APP_INTERCEPTOR, useClass: ErrorInterceptor },
   ],
