@@ -23,7 +23,8 @@
     "migrate:dev:create": "prisma migrate dev --create-only",
     "migrate:deploy": "npx prisma migrate deploy --preview-feature",
     "prisma": "prisma",
-    "prisma:generate": "prisma generate"
+    "prisma:generate": "prisma generate",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@nestjs/common": "^8.0.0",
@@ -64,7 +65,8 @@
     "ts-loader": "^9.2.3",
     "ts-node": "^10.0.0",
     "tsconfig-paths": "4.0.0",
-    "typescript": "^4.3.5"
+    "typescript": "^4.3.5",
+    "husky": "^8.0.0"
   },
   "jest": {
     "moduleFileExtensions": [
