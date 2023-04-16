@@ -1,15 +1,60 @@
 import { INestApplication } from '@nestjs/common';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { ConfigService } from '@nestjs/config';
+import {
+  DocumentBuilder,
+  SwaggerCustomOptions,
+  SwaggerModule,
+} from '@nestjs/swagger';
+import * as basicAuth from 'express-basic-auth';
 
-export function SwaggerInit(app: INestApplication) {
+export function SwaggerInit(
+  app: INestApplication,
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  modules?: Function[],
+) {
   const config = new DocumentBuilder()
-    .setTitle('Nest api')
-    .setDescription('API built with nestjs')
+    .setTitle('Nest API')
+    .setDescription('Swagger documentation for Nest API')
     .setVersion('1.0')
-    .addTag('API')
+    .addTag('Api')
     .build();
 
-  const document = SwaggerModule.createDocument(app, config);
+  const customOptions: SwaggerCustomOptions = {
+    swaggerOptions: {
+      persistAuthorization: true,
+    },
+    customSiteTitle: 'Nest Api',
+    useGlobalPrefix: false,
+  };
 
-  SwaggerModule.setup('/api/docs', app, document);
+  const configService = app.get(ConfigService);
+
+  const NODE_ENV = configService.get<string>('NODE_ENV');
+
+  const swaggerRoute = configService.get<string>('SWAGGER_ROUTE');
+
+  const document = SwaggerModule.createDocument(app, config, {
+    include: modules,
+    operationIdFactory: (_controllerKey, methodKey) => methodKey,
+  });
+
+  if (NODE_ENV != 'development') {
+    const DEFAULT_ADMIN_USERNAME = configService.get<string>(
+      'DEFAULT_ADMIN_USERNAME',
+    );
+
+    const DEFAULT_ADMIN_PASSWORD = configService.get<string>(
+      'DEFAULT_ADMIN_PASSWORD',
+    );
+
+    app.use(
+      swaggerRoute,
+      basicAuth({
+        challenge: true,
+        users: { [DEFAULT_ADMIN_USERNAME]: DEFAULT_ADMIN_PASSWORD },
+      }),
+    );
+  }
+
+  SwaggerModule.setup(swaggerRoute, app, document, customOptions);
 }
