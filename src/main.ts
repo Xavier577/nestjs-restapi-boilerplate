@@ -9,6 +9,7 @@ import {
   WinstonModule,
 } from 'nest-winston';
 import { NestExpressApplication } from '@nestjs/platform-express';
+import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
   const infoLogRotationTransport = new DailyRotateFile({
@@ -55,10 +56,15 @@ async function bootstrap() {
 
   SwaggerInit(app);
 
-  await app.listen(9000);
+  const configService = app.get(ConfigService);
+
+  const PORT = configService.get<string>('PORT');
+
+  await app.listen(PORT);
 
   const appUrl = await app.getUrl();
 
   Logger.log(`app is running on ${appUrl}`, 'NestApplication');
 }
+
 bootstrap();
